@@ -4,26 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\ApiMessages\ApiMessages;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RealStateRequest;
-use App\Models\RealState;
+use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class RealStateController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    private $realState;
-    public function __construct(RealState $realState)
+    private $category;
+    
+    public function __construct(Category $category)
     {
-        $this->realState = $realState;
+        $this->category = $category;
     }
     public function index()
     {
-        $realState = $this->realState->paginate(10);
-        return response()->json($realState, 200);
+        return $this->category->paginate(10);
     }
 
     /**
@@ -32,24 +32,22 @@ class RealStateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RealStateRequest $request)
+    public function store(CategoryRequest $request)
     {
+
         try {
             $data = $request->all();
-            $realState = $this->realState->create($data);
-    
-            if (isset($data['categories']) && count($data['categories'])) {
-                $realState->categories()->sync($data['categories']);
-            }
-            
-            return response()->json([
-                'data' => $realState->title.' Create success!'
-            ], 200);
+            $category = $this->category->create($data);
+
+            return response()->json(
+                [
+                    'data'  => 'Category created success!'
+                ], 201);
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
-
+        
     }
 
     /**
@@ -61,16 +59,13 @@ class RealStateController extends Controller
     public function show($id)
     {
         try {
-            $realState = $this->realState->findOrFail($id);
-            return response()->json(
-                [
-                    'data'  =>  $realState
-                ], 201
-            );
+            $category = $this->category->findOrFail($id);
+            return response()->json($category, 200);
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
-            return response()->json($message, 401);
+            return response()->json($message->getMessage(), 401);
         }
+        
     }
 
     /**
@@ -80,21 +75,14 @@ class RealStateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RealStateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-
         try {
-            $realState = $this->realState->findOrFail($id);
             $data = $request->all();
-            $realState->update($data);
-
-            if (isset($data['categories']) && count($data['categories'])) {
-                $realState->categories()->sync($data['categories']);
-            }
-
+            $category = $this->category->create($data);
             return response()->json(
                 [
-                    'data'  => 'Update success!'
+                    'data'  =>  'Category updated Success!'
                 ], 201
             );
         } catch (\Exception $e) {
@@ -112,19 +100,15 @@ class RealStateController extends Controller
     public function destroy($id)
     {
         try {
-            $realState = $this->realState->findOrFail($id);
-            $realState->delete();
+            $category = $this->category->findOrFail($id);
+            $category->delete();
             return response()->json(
                 [
-                    'data'  => 'The '.$realState->title.' delete success!'
-                ], 200
-                );
+                    'data'  =>  'Category delete!'
+                ], 200);
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
-
-
-
     }
 }

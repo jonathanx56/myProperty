@@ -16,6 +16,10 @@ class RealState extends Model
 
     public function user()
     {
-        return $this->belongTo(user::class);
+        return $this->belongTo(User::class);
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'real_state_categories');
     }
 }
