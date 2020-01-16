@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\ApiMessages\ApiMessages;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserAndProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,14 +33,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(UserAndProfileRequest $request)
     {
+        $data = $request->all();
+        
         try {
-            $data = $request->all();
-            $data['password'] = bcrypt($data['password']);
-            $data['password_confirmation'] = bcrypt($data['password_confirmation']);
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
 
-            $this->user->create($data);
+            $user = $this->user->create($data);
+            $user->profile()->create($profile);
+            
             return response()->json(
             [
                 'data' => [
@@ -63,7 +66,9 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = $this->user->findOrFail($id);
+            $user = $this->user->with('profile')->findOrFail($id);
+            $user->profile->social_networks = unserialize($user->profile->social_networks);
+            
             return response()->json(
             [
                 'data' => $user
@@ -82,12 +87,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserAndProfileRequest $request, $id)
     {
+        $data = $request->all();
+
         try {
-            $data = $request->all();
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
+            
             $user = $this->user->findOrFail($id);
             $user->update($data);
+            
+            $user->profile()->update($profile);
+
             return response()->json(
                 [
                     'data'  => 'Update Success!'

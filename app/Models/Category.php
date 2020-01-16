@@ -11,6 +11,6 @@ class Category extends Model
 
     public function realStates()
     {
-         return $this->belongsToMany(realStates::class, 'real_state_categories');   
+         return $this->belongsToMany(RealState::class, 'real_state_categories');   
     }
 }

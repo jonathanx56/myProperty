@@ -22,7 +22,8 @@ class RealStateController extends Controller
     }
     public function index()
     {
-        $realState = $this->realState->paginate(10);
+        $user = auth('api')->user();
+        $realState = $user->real_state()->paginate(10);
         return response()->json($realState, 200);
     }
 
@@ -34,14 +35,28 @@ class RealStateController extends Controller
      */
     public function store(RealStateRequest $request)
     {
+        $data = $request->all();
+        $images = $request->file('images');
+
         try {
-            $data = $request->all();
+            $data['user_id'] = auth('api')->user()->id;
+
             $realState = $this->realState->create($data);
-    
+
             if (isset($data['categories']) && count($data['categories'])) {
                 $realState->categories()->sync($data['categories']);
             }
-            
+
+            $imagesUploaded = [];
+            if($images) {
+                foreach ($images as $image) {
+                    $path = $image->store('images', 'public');
+                    $imagesUploaded[] = ['photo' => $path, 'is_thumb' => false];
+                }
+
+                $realState->photos()->createMany($imagesUploaded);
+            }
+
             return response()->json([
                 'data' => $realState->title.' Create success!'
             ], 200);
@@ -61,7 +76,8 @@ class RealStateController extends Controller
     public function show($id)
     {
         try {
-            $realState = $this->realState->findOrFail($id);
+            $user = auth('api')->user();
+            $realState = $user->real_state()->with('photos')->findOrFail($id);
             return response()->json(
                 [
                     'data'  =>  $realState
@@ -82,14 +98,27 @@ class RealStateController extends Controller
      */
     public function update(RealStateRequest $request, $id)
     {
+        $data = $request->all();
+        $images = $request->file('images');
 
         try {
-            $realState = $this->realState->findOrFail($id);
-            $data = $request->all();
+            $user = auth('api')->user();
+
+            $realState = $user->real_state()->findOrFail($id);
             $realState->update($data);
 
             if (isset($data['categories']) && count($data['categories'])) {
                 $realState->categories()->sync($data['categories']);
+            }
+
+            $imagesUploaded = [];
+            if($images){
+                foreach ($images as $image) {
+                    $path = $image->store('images', 'public');
+                    $imagesUploaded[] = ['photo' => $path, 'is_thumb' =>false];
+                }
+                // createMany Cria varios
+                $realState->photos()->createMany($imagesUploaded);
             }
 
             return response()->json(
@@ -112,7 +141,9 @@ class RealStateController extends Controller
     public function destroy($id)
     {
         try {
-            $realState = $this->realState->findOrFail($id);
+            $user = auth('api')->user();
+
+            $realState = $user->real_state()->findOrFail($id);
             $realState->delete();
             return response()->json(
                 [
