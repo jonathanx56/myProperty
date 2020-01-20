@@ -36,12 +36,11 @@ class RealStateSearchController extends Controller
             $realStateRepository->selectConditions($request->conditions);
         }
 
+        $realStateRepository->setLocation($request->all(['state','city']));
 
-
-        $realState = $realStates->paginate(10);
 
         return response()->json([
-            'data'  =>  $realStateRepository->getResult()->paginate(10)
+            'data'  =>  $realStateRepository->getResult()->paginate(5)
         ], 200);
     }
 
