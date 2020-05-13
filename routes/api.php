@@ -23,6 +23,7 @@ Route::prefix('v1')->namespace('Api')->group(function(){
     Route::get('/logout', 'Auth\\LoginJwtController@logout')->name('logout');
 
     Route::get('/search', 'RealStateSearchController@index');
+    Route::get('/search/{real_state_id}', 'RealStateSearchController@show');
 
     Route::group( ['middleware' => ['jwt.auth']], function(){
 

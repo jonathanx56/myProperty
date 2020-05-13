@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RealStatePhoto extends Model
 {
-    protected $table = 'Real_State_photos';
+    protected $table = 'real_state_photos';
 
     protected $fillable = ['photo','is_thumb'];
 

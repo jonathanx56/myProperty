@@ -22,7 +22,7 @@ class CreateAddressesTable extends Migration
             $table->integer('number');
             $table->string('neighborhood');
             $table->string('complement')->nullable();
-            $table->integer('zip_code');
+            $table->string('zip_code');
             $table->timestamps();
 
             $table->foreign('state_id')->references('id')->on('states');

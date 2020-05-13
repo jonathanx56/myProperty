@@ -31,7 +31,8 @@ class RealStateRequest extends FormRequest
         'bedrooms' => 'required',
         'bathrooms' => 'required',
         'property_area' => 'required',
-        'total_property_area' => 'required'
+        'total_property_area' => 'required',
+        'categories' => 'required'
         ];
     }
 }

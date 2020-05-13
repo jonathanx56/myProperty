@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
+    protected $fillable = ['state_id', 'city_id'];
+
     public function state()
     {
         return $this->belongsTo(state::class);
