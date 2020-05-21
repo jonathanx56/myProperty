@@ -24,3 +24,8 @@ docker exec -it myproperty-app php artisan config:cache
 
 echo Information of new containers
 docker ps -a
+
+echo compose php install
+docker run --rm --interactive --tty \
+  --volume $PWD:/app \
+  composer install

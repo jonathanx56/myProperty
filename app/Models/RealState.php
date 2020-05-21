@@ -11,7 +11,7 @@ class RealState extends Model
     protected $fillable = [
         'user_id', 'title', 'description', 'content',
         'price', 'slug', 'bedrooms', 'bathrooms', 'property_area',
-        'total_property_area'
+        'total_property_area', 'address_id'
     ];
 
     public function user()

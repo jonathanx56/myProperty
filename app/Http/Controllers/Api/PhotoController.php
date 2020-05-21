@@ -24,12 +24,12 @@ class PhotoController extends Controller
             ->where('is_thumb', true)
             ->first();
 
-        if($photo->count()){
+        if($photo){
             $photo->update(['is_thumb' => false]);
         }
 
-        $photo = $photo->findOrFail($id);
-        $photo->update(['is_thumb' => true]);
+        $photoIsThumb = $this->realStatePhoto->findOrFail($id);
+        $photoIsThumb->update(['is_thumb' => true]);
 
         return response()->json(
             [

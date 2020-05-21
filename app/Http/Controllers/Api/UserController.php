@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     private $user;
     public function __construct(User $user)
     {
@@ -36,14 +31,14 @@ class UserController extends Controller
     public function store(UserAndProfileRequest $request)
     {
         $data = $request->all();
-        
+
         try {
             $profile = $data['profile'];
             $profile['social_networks'] = serialize($profile['social_networks']);
 
             $user = $this->user->create($data);
             $user->profile()->create($profile);
-            
+
             return response()->json(
             [
                 'data' => [
@@ -68,7 +63,7 @@ class UserController extends Controller
         try {
             $user = $this->user->with('profile')->findOrFail($id);
             $user->profile->social_networks = unserialize($user->profile->social_networks);
-            
+
             return response()->json(
             [
                 'data' => $user
@@ -94,10 +89,10 @@ class UserController extends Controller
         try {
             $profile = $data['profile'];
             $profile['social_networks'] = serialize($profile['social_networks']);
-            
+
             $user = $this->user->findOrFail($id);
             $user->update($data);
-            
+
             $user->profile()->update($profile);
 
             return response()->json(

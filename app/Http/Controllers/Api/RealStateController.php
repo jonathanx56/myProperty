@@ -10,16 +10,25 @@ use Illuminate\Http\Request;
 
 class RealStateController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     private $realState;
     public function __construct(RealState $realState)
     {
         $this->realState = $realState;
     }
+
+    /**
+     * @SWG\Get(
+     *   tags={"real-states"},
+     *   path="/api/v1/real-states",
+     *   summary="Get Real-state",
+     *   operationId="Real-state",
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     *   security={{"default": {}}},
+     * )
+     *
+     */
     public function index()
     {
         $user = auth('api')->user();
@@ -27,11 +36,32 @@ class RealStateController extends Controller
         return response()->json($realState, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * @SWG\Post(
+     *   tags={"real-states"},
+     *   path="/api/v1/real-states",
+     *   security={{"default": {}}},
+     *   summary="Get Real-state",
+     *   operationId="Real-state",
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the user id",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="title",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the title",
+     *          type="integer",
+     *      ),
+     * )
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(RealStateRequest $request)
     {
@@ -68,11 +98,24 @@ class RealStateController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     * @SWG\Get(
+     *   tags={"real-states"},
+     *   path="/api/v1/real-states/{realStateId}",
+     *   summary="Get Real-state",
+     *   operationId="Real-state",
+     *   security={{"default": {}}},
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     *      @SWG\Parameter(
+     *          name="realStateId",
+     *          in="path",
+     *          required=true,
+     *          description="-   Enter the id",
+     *          type="integer",
+     *      ),
+     * )
+    */
     public function show($id)
     {
         try {
@@ -151,6 +194,7 @@ class RealStateController extends Controller
                 ], 200
                 );
         } catch (\Exception $e) {
+
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
