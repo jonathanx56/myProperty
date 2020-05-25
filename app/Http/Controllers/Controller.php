@@ -20,10 +20,10 @@ use Illuminate\Routing\Controller as BaseController;
  *      ),
  *     @SWG\Info(
  *         version="1.0.0",
- *         title="L5 Swagger API",
- *         description="L5 Swagger API description",
+ *         title="myProperty API",
+ *         description="developed by Jonathan",
  *         @SWG\Contact(
- *             email="your-email@domain.com"
+ *             email="jonathanx56@hotmail.com"
  *         ),
  *     )
  * )

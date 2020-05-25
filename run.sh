@@ -13,8 +13,8 @@ docker exec -it myproperty-app php artisan key:generate
 echo Make migrations
 docker exec -it myproperty-app php artisan migrate
 
-echo Make seeds
-docker exec -it myproperty-app php artisan db:seed
+ echo Make seeds
+ docker exec -it myproperty-app php artisan db:seed
 
 echo Generate jwt:secret
 docker exec -it myproperty-app php artisan jwt:secret

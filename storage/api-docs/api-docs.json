@@ -1,10 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "L5 Swagger API",
-        "description": "L5 Swagger API description",
+        "title": "myProperty API",
+        "description": "developed by Jonathan",
         "contact": {
-            "email": "your-email@domain.com"
+            "email": "jonathanx56@hotmail.com"
         },
         "version": "1.0.0"
     },
@@ -106,8 +106,8 @@
                 "tags": [
                     "real-states"
                 ],
-                "summary": "Get Real-state",
-                "operationId": "Real-state",
+                "summary": "List Real-state",
+                "operationId": "list",
                 "responses": {
                     "200": {
                         "description": "successful operation"
@@ -129,8 +129,14 @@
                 "tags": [
                     "real-states"
                 ],
-                "summary": "Get Real-state",
-                "operationId": "Real-state",
+                "summary": "Create Real-state",
+                "operationId": "create",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "text/plain, application/json"
+                ],
                 "parameters": [
                     {
                         "name": "user_id",
@@ -144,7 +150,89 @@
                         "in": "query",
                         "description": "-   Enter the title",
                         "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "-   Enter the description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "-   Enter the content",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "-   Enter the price",
+                        "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "slug",
+                        "in": "query",
+                        "description": "-   Enter the slug",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "bedrooms",
+                        "in": "query",
+                        "description": "-   Enter the bedrooms",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "bathrooms",
+                        "in": "query",
+                        "description": "-   Enter the bathrooms",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "property_area",
+                        "in": "query",
+                        "description": "-   Enter the property area",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "total_property_area",
+                        "in": "query",
+                        "description": "-   Enter the property total property area",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "categories[]",
+                        "in": "query",
+                        "description": "-   Enter the property categories",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "address_id",
+                        "in": "query",
+                        "description": "-   Enter the property address",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "images",
+                        "in": "formData",
+                        "description": "-   Enter the images",
+                        "required": true,
+                        "type": "file"
                     }
                 ],
                 "responses": {
@@ -165,16 +253,182 @@
                 ]
             }
         },
-        "/api/v1/real-states/{realStateId}": {
+        "/api/v1/real-states/{id}": {
             "get": {
                 "tags": [
                     "real-states"
                 ],
-                "summary": "Get Real-state",
-                "operationId": "Real-state",
+                "summary": "Show Real-state",
+                "operationId": "show",
                 "parameters": [
                     {
-                        "name": "realStateId",
+                        "name": "id",
+                        "in": "path",
+                        "description": "-   Enter the id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "406": {
+                        "description": "not acceptable"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "default": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "real-states"
+                ],
+                "summary": "Update Real-state",
+                "operationId": "update",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "text/plain, application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "-   Enter the real-state id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "-   Enter the user id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "-   Enter the title",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "-   Enter the description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "-   Enter the content",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "-   Enter the price",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "slug",
+                        "in": "query",
+                        "description": "-   Enter the slug",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "bedrooms",
+                        "in": "query",
+                        "description": "-   Enter the bedrooms",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "bathrooms",
+                        "in": "query",
+                        "description": "-   Enter the bathrooms",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "property_area",
+                        "in": "query",
+                        "description": "-   Enter the property area",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "total_property_area",
+                        "in": "query",
+                        "description": "-   Enter the property total property area",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "categories[]",
+                        "in": "query",
+                        "description": "-   Enter the property categories",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "address_id",
+                        "in": "query",
+                        "description": "-   Enter the property address",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "images",
+                        "in": "formData",
+                        "description": "-   Enter the images",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "406": {
+                        "description": "not acceptable"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "default": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "real-states"
+                ],
+                "summary": "Delete Real-state",
+                "operationId": "delete",
+                "parameters": [
+                    {
+                        "name": "id",
                         "in": "path",
                         "description": "-   Enter the id",
                         "required": true,

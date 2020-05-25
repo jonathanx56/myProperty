@@ -22,7 +22,7 @@ services:
 
   # PHP (with Caddy)
   app:
-    image: ambientum/php:7.3-nginx
+    image: ambientum/php:7.2-nginx
     container_name: myproperty-app
     volumes:
       - .:/var/www/app

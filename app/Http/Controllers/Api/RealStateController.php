@@ -20,8 +20,8 @@ class RealStateController extends Controller
      * @SWG\Get(
      *   tags={"real-states"},
      *   path="/api/v1/real-states",
-     *   summary="Get Real-state",
-     *   operationId="Real-state",
+     *   summary="List Real-state",
+     *   operationId="list",
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=406, description="not acceptable"),
      *   @SWG\Response(response=500, description="internal server error"),
@@ -41,8 +41,10 @@ class RealStateController extends Controller
      *   tags={"real-states"},
      *   path="/api/v1/real-states",
      *   security={{"default": {}}},
-     *   summary="Get Real-state",
-     *   operationId="Real-state",
+     *   summary="Create Real-state",
+     *   operationId="create",
+     *   consumes={"multipart/form-data"},
+     *   produces={"text/plain, application/json"},
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=406, description="not acceptable"),
      *   @SWG\Response(response=500, description="internal server error"),
@@ -58,7 +60,89 @@ class RealStateController extends Controller
      *          in="query",
      *          required=true,
      *          description="-   Enter the title",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="description",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the description",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="content",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the content",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="price",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the price",
      *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="slug",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the slug",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="bedrooms",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the bedrooms",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="bathrooms",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the bathrooms",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="property_area",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property area",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="total_property_area",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property total property area",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="categories[]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property categories",
+     *          type="array",
+     *          collectionFormat="multi",
+     *          @SWG\Items(
+     *              type="integer",
+     *              format="int32"
+     *          )
+     *      ),
+     *      @SWG\Parameter(
+     *          name="address_id",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property address",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="images",
+     *          in="formData",
+     *          required=true,
+     *          description="-   Enter the images",
+     *          type="file",
      *      ),
      * )
      *
@@ -100,20 +184,20 @@ class RealStateController extends Controller
     /**
      * @SWG\Get(
      *   tags={"real-states"},
-     *   path="/api/v1/real-states/{realStateId}",
-     *   summary="Get Real-state",
-     *   operationId="Real-state",
+     *   path="/api/v1/real-states/{id}",
+     *   summary="Show Real-state",
+     *   operationId="show",
      *   security={{"default": {}}},
+     *   @SWG\Parameter(
+     *      name="id",
+     *      in="path",
+     *      required=true,
+     *      description="-   Enter the id",
+     *      type="integer",
+     *   ),
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=406, description="not acceptable"),
      *   @SWG\Response(response=500, description="internal server error"),
-     *      @SWG\Parameter(
-     *          name="realStateId",
-     *          in="path",
-     *          required=true,
-     *          description="-   Enter the id",
-     *          type="integer",
-     *      ),
      * )
     */
     public function show($id)
@@ -126,18 +210,132 @@ class RealStateController extends Controller
                     'data'  =>  $realState
                 ], 201
             );
-        } catch (\Exception $e) {
+        }catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            $message = new ApiMessages("Real-state not found!");
+            return response()->json($message, 404);
+        }catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message, 401);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
+     /**
+     * @SWG\Put(
+     *   tags={"real-states"},
+     *   path="/api/v1/real-states/{id}",
+     *   security={{"default": {}}},
+     *   summary="Update Real-state",
+     *   operationId="update",
+     *   consumes={"multipart/form-data"},
+     *   produces={"text/plain, application/json"},
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     *      @SWG\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="-   Enter the real-state id",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the user id",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="title",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the title",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="description",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the description",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="content",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the content",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="price",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the price",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="slug",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the slug",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="bedrooms",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the bedrooms",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="bathrooms",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the bathrooms",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="property_area",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property area",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="total_property_area",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property total property area",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="categories[]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property categories",
+     *          type="array",
+     *          collectionFormat="multi",
+     *          @SWG\Items(
+     *              type="integer",
+     *              format="int32"
+     *          )
+     *      ),
+     *      @SWG\Parameter(
+     *          name="address_id",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the property address",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="images",
+     *          in="formData",
+     *          required=true,
+     *          description="-   Enter the images",
+     *          type="file",
+     *      ),
+     * )
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(RealStateRequest $request, $id)
     {
@@ -175,12 +373,25 @@ class RealStateController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   /**
+     * @SWG\Delete(
+     *   tags={"real-states"},
+     *   path="/api/v1/real-states/{id}",
+     *   summary="Delete Real-state",
+     *   operationId="delete",
+     *   security={{"default": {}}},
+     *   @SWG\Parameter(
+     *      name="id",
+     *      in="path",
+     *      required=true,
+     *      description="-   Enter the id",
+     *      type="integer",
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+    */
     public function destroy($id)
     {
         try {
