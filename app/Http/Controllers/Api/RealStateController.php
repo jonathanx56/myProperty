@@ -211,7 +211,7 @@ class RealStateController extends Controller
                 ], 201
             );
         }catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            $message = new ApiMessages("Real-state not found!");
+            $message = new ApiMessages("Real-state not found for this user!");
             return response()->json($message, 404);
         }catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());

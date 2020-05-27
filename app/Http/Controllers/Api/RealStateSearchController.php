@@ -9,11 +9,21 @@ use Illuminate\Http\Request;
 
 class RealStateSearchController extends Controller
 {
+
+
+    public $realState;
+    public $filtersAndConditions;
+    public function __construct(RealState $realState)
+    {
+        $this->realState = $realState;
+
+    }
+
     /**
      * @SWG\Get(
      *   tags={"real-states-search"},
      *   path="/api/v1/search",
-     *   summary="Get Search Real-state",
+     *   summary="Get Search Real-state for external use",
      *   operationId="Search Real-state",
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=406, description="not acceptable"),
@@ -41,19 +51,6 @@ class RealStateSearchController extends Controller
      *      ),
      * )
     */
-
-    public $realState;
-    public $filtersAndConditions;
-    public function __construct(RealState $realState)
-    {
-        $this->realState = $realState;
-
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $realStates = $this->realState;
@@ -78,11 +75,24 @@ class RealStateSearchController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     * @SWG\Get(
+     *   tags={"real-states-search"},
+     *   path="/api/v1/search/{real_state_id}",
+     *   summary="Show real-states with andress and photo for external use",
+     *   operationId="show",
+     *   security={{"default": {}}},
+     *   @SWG\Parameter(
+     *      name="real_state_id",
+     *      in="path",
+     *      required=true,
+     *      description="-   Enter the real_state_id",
+     *      type="integer",
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+    */
     public function show($id)
     {
         try {
