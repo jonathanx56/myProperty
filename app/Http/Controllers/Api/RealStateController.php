@@ -138,7 +138,7 @@ class RealStateController extends Controller
      *          type="integer",
      *      ),
      *      @SWG\Parameter(
-     *          name="images",
+     *          name="images[]",
      *          in="formData",
      *          required=true,
      *          description="-   Enter the images",
@@ -152,6 +152,7 @@ class RealStateController extends Controller
         $data = $request->all();
         $images = $request->file('images');
 
+        var_dump($data);
         try {
             $data['user_id'] = auth('api')->user()->id;
 
@@ -328,7 +329,7 @@ class RealStateController extends Controller
      *          type="integer",
      *      ),
      *      @SWG\Parameter(
-     *          name="images",
+     *          name="images[]",
      *          in="formData",
      *          required=true,
      *          description="-   Enter the images",
@@ -341,7 +342,6 @@ class RealStateController extends Controller
     {
         $data = $request->all();
         $images = $request->file('images');
-
         try {
             $user = auth('api')->user();
 

@@ -325,6 +325,83 @@
                 ]
             }
         },
+        "/api/v1/set-thumb/{id}/{realStateid}": {
+            "put": {
+                "tags": [
+                    "photo"
+                ],
+                "summary": "set Thumb",
+                "description": "-   Set the photo with thumb.",
+                "operationId": "setThumb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "-   Enter the id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "realStateid",
+                        "in": "path",
+                        "description": "-   Enter the real-state id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "406": {
+                        "description": "not acceptable"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "default": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/photo/{id}": {
+            "delete": {
+                "tags": [
+                    "photo"
+                ],
+                "summary": "set Delete",
+                "description": "-   Delete the photo.",
+                "operationId": "delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "-   Enter the id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "406": {
+                        "description": "not acceptable"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "default": []
+                    }
+                ]
+            }
+        },
         "/api/v1/real-states": {
             "get": {
                 "tags": [
@@ -452,7 +529,7 @@
                         "type": "integer"
                     },
                     {
-                        "name": "images",
+                        "name": "images[]",
                         "in": "formData",
                         "description": "-   Enter the images",
                         "required": true,
@@ -620,7 +697,7 @@
                         "type": "integer"
                     },
                     {
-                        "name": "images",
+                        "name": "images[]",
                         "in": "formData",
                         "description": "-   Enter the images",
                         "required": true,
@@ -808,14 +885,35 @@
                     {
                         "name": "password_confirmation",
                         "in": "query",
-                        "description": "-   Enter the password_confirmation",
+                        "description": "-   Enter the password confirmation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[about]",
+                        "in": "query",
+                        "description": "-   Enter the about",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "profile[phone]",
                         "in": "query",
-                        "description": "-   Enter the property profile",
+                        "description": "-   Enter the phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[mobile_phone]",
+                        "in": "query",
+                        "description": "-   Enter the mobile phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[social_networks][]",
+                        "in": "query",
+                        "description": "-   Enter the social networks",
                         "required": true,
                         "type": "array",
                         "items": {
@@ -856,6 +954,98 @@
                         "description": "-   Enter the id",
                         "required": true,
                         "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "406": {
+                        "description": "not acceptable"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "default": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "-   Enter the id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "-   Enter the name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "-   Enter the email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "-   Enter the password",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "-   Enter the password confirmation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[about]",
+                        "in": "query",
+                        "description": "-   Enter the about",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[phone]",
+                        "in": "query",
+                        "description": "-   Enter the phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[mobile_phone]",
+                        "in": "query",
+                        "description": "-   Enter the mobile phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "profile[social_networks][]",
+                        "in": "query",
+                        "description": "-   Enter the social networks",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
                     }
                 ],
                 "responses": {

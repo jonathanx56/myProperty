@@ -16,6 +16,33 @@ class PhotoController extends Controller
         $this->realStatePhoto = $realStatePhoto;
     }
 
+    /**
+     * @SWG\Put(
+     *   tags={"photo"},
+     *   path="/api/v1/set-thumb/{id}/{realStateid}",
+     *   description="-   Set the photo with thumb.",
+     *   summary="set Thumb",
+     *   operationId="setThumb",
+     *   security={{"default": {}}},
+     *   @SWG\Parameter(
+     *      name="id",
+     *      in="path",
+     *      required=true,
+     *      description="-   Enter the id",
+     *      type="integer",
+     *   ),
+     *   @SWG\Parameter(
+     *      name="realStateid",
+     *      in="path",
+     *      required=true,
+     *      description="-   Enter the real-state id",
+     *      type="integer",
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+    */
     public function setThumb($id, $realStateid)
     {
 
@@ -46,6 +73,26 @@ class PhotoController extends Controller
         }
     }
 
+    /**
+     * @SWG\Delete(
+     *   tags={"photo"},
+     *   path="/api/v1/photo/{id}",
+     *   description="-   Delete the photo.",
+     *   summary="set Delete",
+     *   operationId="delete",
+     *   security={{"default": {}}},
+     *   @SWG\Parameter(
+     *      name="id",
+     *      in="path",
+     *      required=true,
+     *      description="-   Enter the id",
+     *      type="integer",
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+    */
     public function delete($id)
     {
         try {

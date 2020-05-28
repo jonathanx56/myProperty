@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use App\ApiMessages\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserAndProfileRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -71,14 +72,35 @@ class UserController extends Controller
      *          name="password_confirmation",
      *          in="query",
      *          required=true,
-     *          description="-   Enter the password_confirmation",
+     *          description="-   Enter the password confirmation",
      *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[about]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the about",
+     *          type="string"
      *      ),
      *      @SWG\Parameter(
      *          name="profile[phone]",
      *          in="query",
      *          required=true,
-     *          description="-   Enter the property profile",
+     *          description="-   Enter the phone",
+     *          type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[mobile_phone]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the mobile phone",
+     *          type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[social_networks][]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the social networks",
      *          type="array",
      *          collectionFormat="multi",
      *          @SWG\Items(
@@ -95,6 +117,8 @@ class UserController extends Controller
         try {
             $profile = $data['profile'];
             $profile['social_networks'] = serialize($profile['social_networks']);
+            $data['password'] = Hash::make($data['password']);
+
 
             $user = $this->user->create($data);
             $user->profile()->create($profile);
@@ -149,11 +173,84 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @SWG\Put(
+     *   tags={"user"},
+     *   path="/api/v1/users/{id}",
+     *   security={{"default": {}}},
+     *   summary="Update User",
+     *   operationId="update",
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     *      @SWG\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="-   Enter the id",
+     *          type="integer",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="name",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the name",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the email",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="password",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the password",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="password_confirmation",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the password confirmation",
+     *          type="string",
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[about]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the about",
+     *          type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[phone]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the phone",
+     *          type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[mobile_phone]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the mobile phone",
+     *          type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="profile[social_networks][]",
+     *          in="query",
+     *          required=true,
+     *          description="-   Enter the social networks",
+     *          type="array",
+     *          collectionFormat="multi",
+     *          @SWG\Items(
+     *              type="string",
+     *          )
+     *      ),
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * )
      */
     public function update(UserAndProfileRequest $request, $id)
     {
@@ -203,6 +300,10 @@ class UserController extends Controller
     {
         try {
             $user = $this->user->findOrFail($id);
+            $loggedInUser = auth("api")->user();
+            if($user == $loggedInUser) {
+                return response()->json("You cannot delete your own user.", 401);
+            }
             $user->delete();
             return response()->json(
                 [
