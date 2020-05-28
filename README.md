@@ -1,78 +1,72 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+
+<h1 align="center">
+    <img alt="Jonathan's" src="https://i.pinimg.com/originals/52/1a/fa/521afaada5d1c270249703e2420fbbb3.png" />
+    <br>
+    Real-state API Rest - Laravel PHP
+</h1>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/projetos-em-laravel/myProperty.svg">
+
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/projetos-em-laravel/myProperty.svg">
+
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/projetos-em-laravel/myProperty.svg">
+  <a href="https://github.com/projetos-em-laravel/myProperty/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/projetos-em-laravel/myProperty">
+  </a>
+
+  <a href="https://github.com/projetos-em-laravel/myProperty/issues">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/projetos-em-laravel/myProperty.svg">
+  </a>
+
+<p align="center">
+  <a href="#Moon-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#information_source-how-to-use">How To Use</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#memo-license">License</a>
 </p>
 
-## About Laravel
+<p align="center">
+  <img src="https://github.com/JonathansMoon/files/blob/master/images/myProperty.jpg">
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## :computer: Technologies
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project was developed at the [Jonathan's Moon](#) with the following technologies:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-  [Laravel](https://laravel.com/)
+-  [jwt-auth](https://github.com/tymondesigns/jwt-auth)
+-  [docker](https://www.docker.com/)
+-  [css](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+-  [Swagger - DarkaOnLine](https://github.com/DarkaOnLine/L5-Swagger)
+-  [Swagger - Zircote](https://github.com/zircote/swagger-php)
+-  [VS Code][vc]
 
-## Learning Laravel
+## :information_source: How To Use
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+To clone and run this application, you'll only need [Docker](https://www.docker.com/) installed on your computer. From your command line:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# Clone this repository
+$ git clone https://github.com/projetos-em-laravel/myProperty.git
 
-## Laravel Sponsors
+# Go into the repository
+$ cd myProperty
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Change the access permissions of the run.sh file
+$ chmod +x ./run.sh
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+# Run the command to mount the php and nginx image on the docker
+# This will automatically perform the migrations and seeds, 
+# in addition to configuring and running your project via docker.
+$ sudo ./run.sh
 
-## Contributing
+# Execute to stop execution
+$ docker-compose down
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## :memo: License
+This project is under the MIT license.
 
-## Code of Conduct
+Made with ♥ by Jonathan Silva :wave: [Get in touch!](https://www.linkedin.com/in/jonathan-silva-gomes-53271a168/)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+[vc]: https://code.visualstudio.com/
